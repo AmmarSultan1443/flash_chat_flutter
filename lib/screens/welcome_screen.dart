@@ -70,7 +70,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   text: ['Flash Chat'],
                   textStyle: TextStyle(
                     color: Colors.black,
-                    fontSize: 45.0,
+                    fontSize: 30.0,
                     fontWeight: FontWeight.w900,
                   ),
                 ),
