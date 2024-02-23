@@ -38,6 +38,16 @@ dependencies:
   #A flutter package which contains a collection of some cool and awesome text animations.
   #Recommended package for text animations in Codemagic's Ebook, "Flutter libraries we love".
   animated_text_kit: ^4.0.0
+  #A Flutter plugin to use the Firebase Core API, which enables connecting to multiple Firebase apps.
+  #To learn more about Firebase, please visit the Firebase website
+  firebase_core: ^1.12.0
+  #A Flutter plugin to use the Firebase Authentication API.
+  #To learn more about Firebase Auth, please visit the Firebase website
+  firebase_auth: ^3.3.7
+  #A Flutter plugin to use the Cloud Firestore API.
+  #To learn more about Firebase Cloud Firestore, please visit the Firebase website
+  cloud_firestore: ^3.1.8
+
 
 dev_dependencies:
   flutter_test:
@@ -48,7 +58,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
