@@ -34,13 +34,13 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 
     controller.addListener(() {
       setState(() {});
-      print(animation.value);
+      //print(animation.value);
     });
 
-    Firebase.initializeApp().whenComplete(() {
+    /*Firebase.initializeApp().whenComplete(() {
       print("completed");
       setState(() {});
-    });
+    });*/
   }
 
   @override
@@ -96,7 +96,11 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             RoundedButton(
                 color: Colors.blueAccent,
                 buttonTitle: 'Register',
-                onPressed: () {
+                onPressed: () async {
+                  /*await Firebase.initializeApp().whenComplete(() {
+                    print("completed");
+                    setState(() {});
+                  });*/
                   //Go to registration screen.
                   Navigator.pushNamed(context, RegistrationScreen.id);
                 }),

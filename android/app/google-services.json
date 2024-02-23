@@ -7,6 +7,25 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:241005411112:android:abc5b45912a9347d3c2e1d",
+        "android_client_info": {
+          "package_name": "com.example.flash_chat_firebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBp8_XTlGxhnOtBhePt0W_9YCTAmCwb7s8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:241005411112:android:d9a5ba90cafed0453c2e1d",
         "android_client_info": {
           "package_name": "com.example.flash_chat_flutter"
