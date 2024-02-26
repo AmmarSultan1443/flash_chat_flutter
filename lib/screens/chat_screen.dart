@@ -29,18 +29,37 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  getMessages() async {
+  // void getMessages() async {
+  //   try {
+  //     final messages = await _firestore.collection('messages').get();
+  //     if (messages != null) {
+  //       for (var message in messages.docs) {
+  //         print(message.data());
+  //       }
+  //     }
+  //
+  //     setState(() {
+  //       _spinnerState = false;
+  //     });
+  //   } on Exception catch (e) {
+  //     // TODO
+  //     print(e);
+  //   }
+  // }
+
+  void messagesStream() async {
     try {
-      final messages = await _firestore.collection('messages').get();
-      if (messages != null) {
-        for (var message in messages.docs) {
-          print(message.data());
+      await for (var snapshot
+          in _firestore.collection('messages').snapshots()) {
+        if (!snapshot.docs.isEmpty) {
+          setState(() {
+            _spinnerState = false;
+          });
+          for (var message in snapshot.docs) {
+            print(message.data());
+          }
         }
       }
-
-      setState(() {
-        _spinnerState = false;
-      });
     } on Exception catch (e) {
       // TODO
       print(e);
@@ -55,7 +74,8 @@ class _ChatScreenState extends State<ChatScreen> {
     setState(() {
       _spinnerState = true;
     });
-    getMessages();
+    //getMessages();
+    messagesStream();
   }
 
   @override
