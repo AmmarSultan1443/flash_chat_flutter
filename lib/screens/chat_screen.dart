@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flash_chat_flutter/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class ChatScreen extends StatefulWidget {
   static const String id = 'chat_screen';
@@ -14,11 +15,35 @@ class _ChatScreenState extends State<ChatScreen> {
   final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
   late User loggedInUser;
-  String? message;
+  String? messageText;
+  bool _spinnerState = false;
 
   getCurrentUser() {
-    if (_auth.currentUser != null) {
-      loggedInUser = _auth.currentUser!;
+    try {
+      if (_auth.currentUser != null) {
+        loggedInUser = _auth.currentUser!;
+      }
+    } on Exception catch (e) {
+      // TODO
+      print(e);
+    }
+  }
+
+  getMessages() async {
+    try {
+      final messages = await _firestore.collection('messages').get();
+      if (messages != null) {
+        for (var message in messages.docs) {
+          print(message.data());
+        }
+      }
+
+      setState(() {
+        _spinnerState = false;
+      });
+    } on Exception catch (e) {
+      // TODO
+      print(e);
     }
   }
 
@@ -27,6 +52,10 @@ class _ChatScreenState extends State<ChatScreen> {
     // TODO: implement initState
     super.initState();
     getCurrentUser();
+    setState(() {
+      _spinnerState = true;
+    });
+    getMessages();
   }
 
   @override
@@ -46,41 +75,45 @@ class _ChatScreenState extends State<ChatScreen> {
         title: Text('⚡️Chat'),
         backgroundColor: Colors.lightBlueAccent,
       ),
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Container(
-              decoration: kMessageContainerDecoration,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child: TextField(
-                      onChanged: (value) {
-                        //Do something with the user input.
-                        message = value;
+      body: ModalProgressHUD(
+        inAsyncCall: _spinnerState,
+        child: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Container(
+                decoration: kMessageContainerDecoration,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(
+                      child: TextField(
+                        onChanged: (value) {
+                          //Do something with the user input.
+                          messageText = value;
+                        },
+                        decoration: kMessageTextFieldDecoration,
+                      ),
+                    ),
+                    MaterialButton(
+                      onPressed: () {
+                        //Implement send functionality.
+                        _firestore.collection('messages').add({
+                          'text': messageText,
+                          'sender': loggedInUser.email
+                        });
                       },
-                      decoration: kMessageTextFieldDecoration,
+                      child: Text(
+                        'Send',
+                        style: kSendButtonTextStyle,
+                      ),
                     ),
-                  ),
-                  MaterialButton(
-                    onPressed: () {
-                      //Implement send functionality.
-                      _firestore
-                          .collection('message')
-                          .add({'text': message, 'sender': loggedInUser.email});
-                    },
-                    child: Text(
-                      'Send',
-                      style: kSendButtonTextStyle,
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
