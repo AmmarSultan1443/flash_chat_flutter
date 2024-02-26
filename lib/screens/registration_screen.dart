@@ -1,9 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flash_chat_flutter/constants.dart';
+import 'package:flash_chat_flutter/screens/chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flash_chat_flutter/components/rounded_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'chat_screen.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const String id = 'registration_screen';
@@ -74,16 +75,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   //TODO: Register
                   print(email);
                   print(password);
-                  final newUser = await _auth.createUserWithEmailAndPassword(
-                      email: email!, password: password!);
+                  try {
+                    final newUser = await _auth.createUserWithEmailAndPassword(
+                        email: email!, password: password!);
+                    if (newUser != null) {
+                      Navigator.pushNamed(context, ChatScreen.id);
+                    }
+                  } on Exception catch (e) {
+                    print(e);
+                  }
                 }),
           ],
         ),
       ),
     );
-  }
-
-  getData() async {
-    await Firebase.initializeApp();
   }
 }
