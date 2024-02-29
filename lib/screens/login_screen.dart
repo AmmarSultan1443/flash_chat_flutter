@@ -47,7 +47,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 onChanged: (value) {
                   //Do something with the user input.
                   email = value;
-                  print(email);
                 },
                 decoration:
                     kTextFieldDecoration.copyWith(hintText: 'Enter your email'),
@@ -61,7 +60,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 onChanged: (value) {
                   //Do something with the user input.
                   password = value;
-                  print(password);
                 },
                 decoration: kTextFieldDecoration.copyWith(
                     hintText: 'Enter your password.'),
@@ -78,8 +76,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   });
                   //Go to login screen.
                   //TODO: Login
-                  print(email);
-                  print(password);
                   try {
                     final user = await _auth.signInWithEmailAndPassword(
                         email: email!, password: password!);

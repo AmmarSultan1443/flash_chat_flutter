@@ -80,8 +80,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     });
                     //Go to registration screen.
                     //TODO: Register
-                    print(email);
-                    print(password);
                     try {
                       final newUser =
                           await _auth.createUserWithEmailAndPassword(
